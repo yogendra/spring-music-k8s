@@ -84,6 +84,11 @@ In case postgres pod is not coming up, you may need to change the storage class 
     ```
     kubectl create -f kubernetes/05-spring-music.yaml
     ```
+    Or deploy directly from this repo
+
+    ```
+    kubectl create -f https://raw.githubusercontent.com/yogendra/spring-music-k8s/master/kubernetes/05-spring-music.yaml
+    ```
 
 
 ## Troubleshooting
