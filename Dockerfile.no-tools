@@ -1,0 +1,15 @@
+# Stage 1: Build image
+FROM adoptopenjdk:11-jdk-hotspot AS build
+RUN mkdir /app
+WORKDIR /app
+ADD . /app
+RUN ./gradlew assemble
+
+
+# Stage 2: Build layered container image
+FROM adoptopenjdk:11-jre-hotspot
+COPY --from=build /app/build/libs/spring-music-k8s-1.0.jar  /app/spring-music-k8s-1.0.jar
+VOLUME /tmp
+WORKDIR /app
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","spring-music-k8s-1.0.jar"]

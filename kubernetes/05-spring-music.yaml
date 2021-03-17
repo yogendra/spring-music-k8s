@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: spring-music
+  name: spring-music
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-music
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: spring-music
+    spec:
+      containers:
+        - image: docker.io/yogendra/spring-music:latest
+          name: spring-music
+          resources:
+            requests:
+              memory: "500Mi"
+              cpu: "250m"
+            limits:
+              memory: "10248Mi"
+              cpu: "500m"
+          envFrom:
+            - configMapRef:
+                name: app-config
+            - secretRef:
+                name: datasource-secret
+          ports:
+            - containerPort: 8080
+              name: http
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-music
+  namespace: spring-music
+  labels:
+    app: spring-music
+spec:
+  selector:
+    app: spring-music
+  ports:
+    - port: 8080
+      name: http
+      targetPort: http

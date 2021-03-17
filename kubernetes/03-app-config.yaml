@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: spring-music
+data:
+  spring_datasource_url: jdbc:postgresql://postgres/music
+  spring_profiles_active: postgres
